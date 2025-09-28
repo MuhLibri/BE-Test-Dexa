@@ -12,23 +12,23 @@ Arsitektur sistem ini dirancang untuk memisahkan setiap fungsi utama ke dalam la
 +------------------+      +-------------------------+
 |      Client      |----->|   API Gateway (3000)    |
 +------------------+      +-------------------------+
-                             |      |      |
-                             |      |      |
-+----------------------------+      |      +-----------------------------+
-|                                   |                                    |
-v                                   v                                    v
+                             |        |      |
+                             |        |      |
+            +----------------+        |      +-----------------------------+
+            |                         |                                    |
+            v                         v                                    v
 +-------------------------+   +-------------------------+   +----------------------------+
 |   Auth Service (3001)   |   | Employee Service (3002) |   |  Attendance Service (3003) |
 +-------------------------+   +-------------------------+   +----------------------------+
-| - Registrasi & Login    |   | - CRUD Profil Karyawan  |   | - CRUD Absensi             |
-| - Manajemen Token (JWT) |   | - Data Pribadi          |   | - Upload Foto Absensi      |
+| - Registrasi & Login    |   | - CRUD Data Karyawan    |   | - CRUD Absensi             |
+| - Manajemen Token (JWT) |   |                         |   | - Upload Foto Absensi      |
 +-------------------------+   +-------------------------+   +----------------------------+
 
 ```
 
 ### Deskripsi Layanan:
-- **API Gateway**: Pintu masuk utama untuk semua permintaan dari klien. Bertanggung jawab untuk otentikasi, otorisasi, rate limiting, dan routing ke layanan yang sesuai.
-- **Auth Service**: Mengelola semua logika terkait otentikasi, termasuk registrasi pengguna, login, dan pembuatan token JWT.
+- **API Gateway**: Pintu masuk utama untuk semua permintaan dari klien. Bertanggung jawab untuk autentikasi, otorisasi, rate limiting, dan routing ke layanan yang sesuai.
+- **Auth Service**: Mengelola semua logika terkait autentikasi, termasuk registrasi pengguna, login, dan pembuatan token JWT.
 - **Employee Service**: Mengelola data master karyawan, seperti profil, data pribadi, dan informasi pekerjaan.
 - **Attendance Service**: Mengelola data absensi karyawan, termasuk check-in dan riwayat absensi.
 
@@ -76,11 +76,6 @@ Anda perlu melakukan instalasi dependensi dan konfigurasi environment untuk seti
     Jika layanan memiliki seeder, jalankan perintah berikut:
     ```bash
     npx prisma db seed
-    ```
-
-5.  **Kembali ke direktori root:**
-    ```bash
-    cd ..
     ```
 
 ---
@@ -136,18 +131,19 @@ Untuk menjalankan seluruh sistem, Anda perlu membuka terminal terpisah untuk set
     npm start
     ```
 
-Setelah semua layanan berjalan, API Gateway akan dapat diakses di `http://localhost:5000`.
+Setelah semua layanan berjalan, API Gateway akan dapat diakses di `http://localhost:3000`.
 
 ## 6. Dokumentasi API
 
 Semua permintaan harus ditujukan ke API Gateway.
 
-### Otentikasi
-| Method | Endpoint               | Deskripsi                                       | Akses      |
-|--------|------------------------|-------------------------------------------------|------------|
-| `POST` | `/auth/login`          | Login untuk mendapatkan token (disimpan di cookie). | Publik     |
-| `POST` | `/auth/logout`         | Menghapus token sesi dari cookie.               | Terotentikasi |
-| `GET`  | `/auth/check-session`  | Memverifikasi apakah sesi login masih valid.    | Terotentikasi |
+### Autentikasi
+| Method | Endpoint               | Deskripsi                                       | Akses          |
+|--------|------------------------|-------------------------------------------------|----------------|
+| `POST` | `/auth/login`          | Login untuk mendapatkan token                   | Publik         |
+| `POST` | `/auth/logout`         | Menghapus token sesi dari cookie.               | Terautentikasi |
+| `POST` | `/auth/register`       | Mendaftarkan pengguna baru                      | HR             |
+| `GET`  | `/auth/check-session`  | Memverifikasi apakah sesi login masih valid.    | Terautentikasi |
 
 **Body untuk `/auth/login`:**
 ```json
@@ -158,12 +154,12 @@ Semua permintaan harus ditujukan ke API Gateway.
 ```
 
 ### Karyawan (Employee)
-| Method | Endpoint                  | Deskripsi                                       | Akses      |
-|--------|---------------------------|-------------------------------------------------|------------|
-| `POST` | `/employees`              | Menambah karyawan baru (aggregator endpoint).   | HR         |
-| `GET`  | `/employees`              | Mendapatkan daftar semua karyawan.              | HR         |
-| `GET`  | `/employees/:id`          | Mendapatkan detail satu karyawan berdasarkan ID.| HR         |
-| `PUT`  | `/employees/:id`          | Memperbarui data karyawan.                      | HR         |
+| Method  | Endpoint                  | Deskripsi                                       | Akses      |
+|---------|---------------------------|-------------------------------------------------|------------|
+| `POST`  | `/employees`              | Menambah karyawan baru (aggregator endpoint).   | HR         |
+| `GET`   | `/employees`              | Mendapatkan daftar semua karyawan.              | HR         |
+| `GET`   | `/employees/:id`          | Mendapatkan detail satu karyawan berdasarkan ID.| HR         |
+| `PUT`   | `/employees/:id`          | Memperbarui data karyawan.                      | HR         |
 | `DELETE`| `/employees/:id`          | Menghapus data karyawan.                        | HR         |
 
 **Body untuk `POST /employees`:**
@@ -189,23 +185,15 @@ Semua permintaan harus ditujukan ke API Gateway.
 ### Absensi (Attendance)
 | Method | Endpoint                  | Deskripsi                                       | Akses      |
 |--------|---------------------------|-------------------------------------------------|------------|
-| `POST` | `/attendances`            | Karyawan melakukan absensi (check-in/check-out).| Karyawan   |
-| `GET`  | `/attendances`            | Mendapatkan riwayat absensi diri sendiri.       | Karyawan   |
+| `POST` | `/attendances/clock-in`   | Karyawan melakukan absensi                      | Karyawan   |
+| `GET`  | `/attendances/me`         | Mendapatkan riwayat absensi diri sendiri.       | Karyawan   |
 | `GET`  | `/attendances/all`        | Mendapatkan riwayat absensi semua karyawan.     | HR         |
 | `GET`  | `/attendances/uploads/:filename` | Mengakses file gambar absensi.           | HR         |
 
-**Body untuk `/attendances` (check-in):**
+**Body untuk `/attendances/clock-in` (Menggunakan multipart/form-data):**
 ```json
 {
-  "type": "IN",
-  "latitude": -6.200000,
-  "longitude": 106.816666
-}
-```
-*   Untuk `check-in`, sertakan `photo` sebagai `multipart/form-data`.
-*   Untuk `check-out`, cukup kirim `type: "OUT"`.
-```json
-{
-  "type": "OUT"
+  "photo": photo/url,
+  "timestamp": 106.816666
 }
 ```
