@@ -1,4 +1,4 @@
-# Sistem Manajemen Karyawan - Backend Microservices
+# Sistem Absensi dan Manajemen Karyawan - Backend Microservices
 
 ## 1. Gambaran Umum
 
