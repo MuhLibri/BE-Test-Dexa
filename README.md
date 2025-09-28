@@ -37,7 +37,7 @@ v                                   v                                    v
 Sebelum memulai, pastikan Anda telah menginstal perangkat lunak berikut:
 - [Node.js](https://nodejs.org/) (v18 atau lebih baru)
 - [NPM](https://www.npmjs.com/) (biasanya terinstal bersama Node.js)
-- [PostgreSQL](https://www.postgresql.org/) atau database lain yang didukung Prisma.
+- [MySQL](https://www.mysql.com/) atau database lain yang didukung Prisma.
 
 ## 4. Instalasi & Konfigurasi
 
