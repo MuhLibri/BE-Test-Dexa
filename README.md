@@ -29,7 +29,7 @@ Arsitektur sistem ini dirancang untuk memisahkan setiap fungsi utama ke dalam la
 ### Deskripsi Layanan:
 - **API Gateway**: Pintu masuk utama untuk semua permintaan dari klien. Bertanggung jawab untuk autentikasi, otorisasi, rate limiting, dan routing ke layanan yang sesuai.
 - **Auth Service**: Mengelola semua logika terkait autentikasi, termasuk registrasi pengguna, login, dan pembuatan token JWT.
-- **Employee Service**: Mengelola data master karyawan, seperti profil, data pribadi, dan informasi pekerjaan.
+- **Employee Service**: Mengelola data master karyawan, seperti data pribadi dan informasi pekerjaan.
 - **Attendance Service**: Mengelola data absensi karyawan, termasuk check-in dan riwayat absensi.
 
 ## 3. Prasyarat
@@ -169,7 +169,7 @@ Semua permintaan harus ditujukan ke API Gateway.
     "email": "jane.doe@example.com",
     "password": "password123",
     "fullName": "Jane Doe",
-    "role": "EMPLOYEE", // Opsional, default 'EMPLOYEE'
+    "role": "EMPLOYEE",
     "identityNumber": "3201234567890003",
     "gender": "FEMALE",
     "position": "Software Engineer",
@@ -178,7 +178,7 @@ Semua permintaan harus ditujukan ke API Gateway.
     "dateOfBirth": "1995-05-15T00:00:00.000Z",
     "placeOfBirth": "Bandung",
     "address": "Jl. Merdeka No. 10",
-    "status": "ACTIVE" // Opsional, default 'ACTIVE'
+    "status": "ACTIVE"
 }
 ```
 
@@ -193,7 +193,7 @@ Semua permintaan harus ditujukan ke API Gateway.
 **Body untuk `/attendances/clock-in` (Menggunakan multipart/form-data):**
 ```json
 {
-  "photo": photo/url,
-  "timestamp": 106.816666
+  "photo": "photo-url",
+  "timestamp": "2025-09-26 13:50:41.000"
 }
 ```
