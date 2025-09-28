@@ -30,7 +30,7 @@ v                                   v                                    v
 - **API Gateway**: Pintu masuk utama untuk semua permintaan dari klien. Bertanggung jawab untuk otentikasi, otorisasi, rate limiting, dan routing ke layanan yang sesuai.
 - **Auth Service**: Mengelola semua logika terkait otentikasi, termasuk registrasi pengguna, login, dan pembuatan token JWT.
 - **Employee Service**: Mengelola data master karyawan, seperti profil, data pribadi, dan informasi pekerjaan.
-- **Attendance Service**: Mengelola data absensi karyawan, termasuk check-in, check-out, dan riwayat absensi.
+- **Attendance Service**: Mengelola data absensi karyawan, termasuk check-in dan riwayat absensi.
 
 ## 3. Prasyarat
 
@@ -71,7 +71,7 @@ Anda perlu melakukan instalasi dependensi dan konfigurasi environment untuk seti
 4.  **Setup Database (untuk `auth-service`, `employee-service`, `attendance-service`):**
     Jalankan migrasi Prisma untuk membuat skema database.
     ```bash
-    npx prisma migrate dev --name init
+    npx prisma migrate dev
     ```
     Jika layanan memiliki seeder, jalankan perintah berikut:
     ```bash
@@ -89,7 +89,7 @@ Anda perlu melakukan instalasi dependensi dan konfigurasi environment untuk seti
 
 #### `api-gateway/.env`
 ```env
-PORT=5000
+PORT=3000
 FRONTEND_URL=http://localhost:3000
 AUTH_SERVICE_URL=http://localhost:3001
 EMPLOYEE_SERVICE_URL=http://localhost:3002
@@ -104,7 +104,7 @@ JWT_SECRET=your-strong-jwt-secret
 #### `auth-service/.env`
 ```env
 PORT=3001
-DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE_AUTH?schema=public"
+DATABASE_URL="mysql://USER:PASSWORD@localhost:PORT/auth_db"
 GATEWAY_SECRET_KEY=your-strong-gateway-secret
 JWT_SECRET=your-strong-jwt-secret
 ```
@@ -112,14 +112,14 @@ JWT_SECRET=your-strong-jwt-secret
 #### `employee-service/.env`
 ```env
 PORT=3002
-DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE_EMPLOYEE?schema=public"
+DATABASE_URL="mysql://USER:PASSWORD@localhost:PORT/employee_db"
 GATEWAY_SECRET_KEY=your-strong-gateway-secret
 ```
 
 #### `attendance-service/.env`
 ```env
 PORT=3003
-DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE_ATTENDANCE?schema=public"
+DATABASE_URL="mysql://USER:PASSWORD@localhost:PORT/attendance_db"
 GATEWAY_SECRET_KEY=your-strong-gateway-secret
 ```
 
