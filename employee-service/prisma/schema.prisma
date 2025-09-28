@@ -14,19 +14,19 @@ datasource db {
 }
 
 enum Gender {
-  Male
-  Female
+  MALE
+  FEMALE
 }
 
 enum Status {
-  Active
-  Inactive
+  ACTIVE
+  INACTIVE
 }
 
 model Employee {
   id              Int      @id @default(autoincrement())
   employeeId      String   @unique
-  status          Status   @default(Active)
+  status          Status   @default(ACTIVE)
   identityNumber  String   @unique
   fullName        String
   gender          Gender

@@ -1,0 +1,21 @@
+require('dotenv').config();
+
+const {
+    PORT,
+    AUTH_SERVICE_URL,
+    EMPLOYEE_SERVICE_URL,
+    ATTENDANCE_SERVICE_URL,
+    FRONTEND_URL,
+    GATEWAY_SECRET_KEY,
+    JWT_SECRET
+} = process.env;
+
+module.exports = {
+    PORT: PORT || 3000,
+    AUTH_SERVICE_URL,
+    EMPLOYEE_SERVICE_URL,
+    ATTENDANCE_SERVICE_URL,
+    FRONTEND_URL,
+    GATEWAY_SECRET_KEY,
+    JWT_SECRET
+};

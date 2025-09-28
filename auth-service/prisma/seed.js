@@ -14,7 +14,7 @@ async function main() {
         fullName: 'Pauline',
         email: 'admin.hr@example.com',
         password: hashedPassword1,
-        role: 'hr'
+        role: 'HR'
     },
   });
 
@@ -27,7 +27,7 @@ async function main() {
         fullName: 'Budi Developer',
         email: 'budi.dev@example.com',
         password: hashedPassword2,
-        role: 'employee'
+        role: 'EMPLOYEE'
     },
   });
 

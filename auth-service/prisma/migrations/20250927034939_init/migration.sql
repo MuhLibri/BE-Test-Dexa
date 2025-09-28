@@ -5,7 +5,7 @@ CREATE TABLE `User` (
     `fullName` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
-    `role` ENUM('hr', 'employee') NOT NULL DEFAULT 'employee',
+    `role` ENUM('HR', 'EMPLOYEE') NOT NULL DEFAULT 'EMPLOYEE',
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 

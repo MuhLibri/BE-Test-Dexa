@@ -6,6 +6,5 @@ const { register, login, validateToken } = require('../controllers/authControlle
 
 router.post('/register', register);
 router.post('/login', login);
-router.post('/validate-token', validateToken);
 
 module.exports = router;

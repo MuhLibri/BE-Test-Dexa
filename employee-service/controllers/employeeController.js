@@ -17,6 +17,7 @@ const createEmployee = async (req, res) => {
         });
         res.status(201).json(employee);
     } catch (error) {
+        console.error('Error creating employee:', error.message);
         res.status(500).json({ error: error.message });
     }
 };
@@ -33,6 +34,7 @@ const getEmployeeById = async (req, res) => {
             res.status(404).json({ error: 'Employee not found' });
         }
     } catch (error) {
+        console.error('Error fetching employee by ID:', error);
         res.status(500).json({ error: error.message });
     }
 };
@@ -46,6 +48,7 @@ const updateEmployee = async (req, res) => {
         });
         res.status(200).json(employee);
     } catch (error) {
+        console.error('Error updating employee:', error);
         res.status(500).json({ error: error.message });
     }
 };
@@ -58,6 +61,7 @@ const deleteEmployee = async (req, res) => {
         });
         res.status(204).send();
     } catch (error) {
+        console.error('Error deleting employee:', error);
         res.status(500).json({ error: error.message });
     }
 };

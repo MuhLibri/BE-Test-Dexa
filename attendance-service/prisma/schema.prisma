@@ -15,7 +15,7 @@ datasource db {
 
 model Attendance {
   id          Int      @id @default(autoincrement())
-  employeeId  String   @unique
+  employeeId  String   
   fullName    String
   timestamp   DateTime @default(now())
   photoUrl    String

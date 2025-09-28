@@ -2,10 +2,10 @@
 CREATE TABLE `Employee` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `employeeId` VARCHAR(191) NOT NULL,
-    `status` ENUM('Active', 'Inactive') NOT NULL DEFAULT 'Active',
+    `status` ENUM('ACTIVE', 'INACTIVE') NOT NULL DEFAULT 'ACTIVE',
     `identityNumber` VARCHAR(191) NOT NULL,
     `fullName` VARCHAR(191) NOT NULL,
-    `gender` ENUM('Male', 'Female') NOT NULL,
+    `gender` ENUM('MALE', 'FEMALE') NOT NULL,
     `position` VARCHAR(191) NOT NULL,
     `division` VARCHAR(191) NOT NULL,
     `phone` VARCHAR(191) NOT NULL,
