@@ -6,7 +6,7 @@ const { AUTH_SERVICE_URL, EMPLOYEE_SERVICE_URL, GATEWAY_SECRET_KEY } = require('
 
 const router = express.Router();
 
-router.post('/employees/add-employee', authenticateToken, authorizeHR, async (req, res) => {
+router.post('/employees', authenticateToken, authorizeHR, async (req, res) => {
     console.log('[Aggregator] Starting add-employee process...');
     
     const requiredFields = [
